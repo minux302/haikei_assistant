@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Haikei Assistant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+    <style type="text/css">
+      html,
+      body {
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+      }
+      .loading {
+        position: fixed;
+        z-index: 1000;
+        width: 100%;
+        height: 100vh;
+        margin: 0;
+        padding: 0;
+        background: #fdfdfd;
+      }
+      .loading.hide {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 500ms;
+      }
+      .loading .circle {
+        display: block;
+        position: relative;
+        top: calc( 50% - 20px );
+        width: 40px;
+        height: 40px;
+        margin: 0 auto;
+        border: 8px solid #e0e0e0;
+        border-top: 7px solid #000000;
+        border-radius: 50px;
+        animation: loading 700ms linear 0ms infinite normal both;
+      }
+      @keyframes loading {
+        0% { transform: rotate( 0deg ); }
+        100% { transform: rotate( 360deg ); }
+      }
+ 			.credit {
+				position: absolute;
+				padding-top: 20px;
+				width: 100%;
+				margin: 0px;
+				padding: 0;
+				overflow: hidden;
+				font-family: Monospace;
+				font-size: 13px;
+				text-align: center;
+				color: #666;
+			}
+      .credit.hide {
+        opacity: 0;
+        transition: opacity 500ms;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="loading">
+      <span class="circle"></span>
+    </div>
+ 		<div class="credit">
+			Sample Model (Japanese Classroom) by TIAN. <a href="https://sketchfab.com/3d-models/japanese-classroom-2a1e3b294c1e4e91bed794bfa520c4f4" target="_blank" rel="noopener">Model Link</a>  <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">License</a>
+		</div>
+    <script src="main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Japanese Classroom
+* source:	https://sketchfab.com/3d-models/japanese-classroom-2a1e3b294c1e4e91bed794bfa520c4f4
+* author:	T I A N (https://sketchfab.com/Tian96)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Japanese Classroom" (https://sketchfab.com/3d-models/japanese-classroom-2a1e3b294c1e4e91bed794bfa520c4f4) by T I A N (https://sketchfab.com/Tian96) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -124,45 +124,55 @@ function removeCredit() {
 }
 
 function loadModel(modelType) {
-  let loadPromise;
+  let loadEdgePromise;
+  let loadTexturePromise;
   if (modelType === 'glb' || modelType === 'gltf') {
-    loadPromise = new Promise(function(resolve) {
+    loadEdgePromise = new Promise(function(resolve) {
       gltfLoader.load(modelURL, (gltf) => {
-        // For Line
         originalModel = mergeObject( gltf.scene );
         updateModel();
-        // For Original with Texture
+        resolve()
+      });
+    });
+    loadTexturePromise = new Promise(function(resolve) {
+      gltfLoader.load(modelURL, (gltf) => {
         originalModelWithTex = fixPosition(gltf.scene);
         scene.add(originalModelWithTex);
         resolve()
       });
     });
   } else if (modelType === 'fbx') {
-    loadPromise = new Promise(function(resolve) {
+    loadEdgePromise = new Promise(function(resolve) {
       fbxLoader.load(modelURL, (fbx) => {
-        // For Line
         originalModel = mergeObject( fbx );
         updateModel();
-        // For Original with Texture
+        resolve()
+      });
+    });
+    loadTexturePromise = new Promise(function(resolve) {
+      fbxLoader.load(modelURL, (fbx) => {
         originalModelWithTex = fixPosition(fbx);
         scene.add(originalModelWithTex);
         resolve()
       });
     });
   } else if (modelType === 'obj') {
-    loadPromise = new Promise(function(resolve) {
+    loadEdgePromise = new Promise(function(resolve) {
       objLoader.load(modelURL, (obj) => {
-        // For Line
         originalModel = mergeObject( obj );
         updateModel();
-        // For Original with Texture
+        resolve()
+      });
+    });
+    loadTexturePromise = new Promise(function(resolve) {
+      objLoader.load(modelURL, (obj) => {
         originalModelWithTex = fixPosition(obj);
         scene.add(originalModelWithTex);
         resolve()
       });
     });
   }
-  return loadPromise
+  return loadEdgePromise, loadTexturePromise
 }
 
 
