@@ -36,6 +36,13 @@ jobs:
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: build
+        run: npm ci && npm run build
+
 
   # Deployment job
   deploy:
