@@ -81,6 +81,51 @@ async function init() {
   initGui();
 }
 
+// const parseFolder = async (item) => {
+//     const entry = item.webkitGetAsEntry();
+//     const fileList = [];
+//     
+//     const traverseFileTree = async (entry, path) => {
+//       const _path = path || "";
+//  
+//       if (entry.isFile) {
+//         const file = await new Promise((resolve) => {
+//           entry.file((file) => {
+//             resolve(file);
+//           });
+//         });
+//  
+//         // fileList.push({ file: file, path: _path + file.name });
+//         fileList.push({path: _path + file.name });
+//       } else if (entry.isDirectory) {
+//         const directoryReader = entry.createReader();
+//         const entries = await new Promise((resolve) => {
+//           directoryReader.readEntries((entries) => {
+//             resolve(entries);
+//           });
+//         });
+//  
+//         for (let i = 0; i < entries.length; i++) {
+//           await traverseFileTree(entries[i], _path + entry.name + "/");
+//         }
+//       }
+//     };
+//  
+//     await traverseFileTree(entry);
+//     return fileList
+//   };
+// 
+// 
+// const checkSuffixExist = (fileList, suffix) => {
+//   for (let i =0; i < fileList.length; i++) {
+//     const fileSuffix = fileList[i].path.split('.').pop();
+//     if (fileSuffix === suffix) {
+//       return true
+//     }
+//   }
+//   return false
+// }
+
 
 function loadDropModel() {
   const dropZoneElement = document.querySelector("body");
@@ -98,15 +143,44 @@ function loadDropModel() {
     loadStart()
     event.preventDefault();
 
-    if (params.modelType === 'glb' || params.modelType === 'fbx' || params.modelType === 'obj') {
-      modelURL = createURL(event, params.modelType);
-    } else if (params.modelType === 'gltf') {
-      modelURL = await createGltfURL(event);
+    const files = event.dataTransfer.files
+    const fileType = files[0].name.split('.').pop();
+    try {
+      if (fileType === 'glb' || fileType === 'fbx' || fileType === 'obj') {
+        modelURL = createURL(event, fileType);
+        await loadModel(fileType);
+      } else if (fileType === 'gltf') {
+        alert('gltf ファイルは、.gltf, .bin形式のファイル、テクスチャを含んだフォルダ、を含んだフォルダ形式でアップロードしてください。')
+        loadFinish()
+        return
+      } else {
+        const items = event.dataTransfer.items;
+        // TODO: Folder checks in undesirable ways
+        if (files[0].type !== "") {
+          alert('アップロード可能なファイルは、gltf, bin, obj, gltf 形式のファイルです。gltf ファイルは、.gltf, .bin形式のファイル、テクスチャを含んだフォルダ、を含んだフォルダ形式でアップロードしてください。')
+          loadFinish()
+          return
+        }
+        // const fileList = await parseFolder(items[0])
+        // if (checkSuffixExist(fileList, 'gltf') && checkSuffixExist(fileList, 'bin')) {
+        //   modelURL = await createGltfURL(event);
+        // } else {
+        //   alert('gltf ファイルは、.gltf, .bin形式のファイルを含んだフォルダ形式でアップロードしてください。')
+        //   return
+        // }
+        modelURL = await createGltfURL(items);
+        console.log('gltf finished')
+        await loadModel('gltf');
+      }
+    } catch (error) {
+      console.log(error)
+      alert('モデルの読み込みに失敗しました。')
+      loadFinish()
+      return
     }
-    await loadModel(params.modelType);
-    loadFinish()
-    removeCredit()
-    console.log('load finished')
+      loadFinish()
+      removeCredit()
+      console.log('load finished')
   };
 };
 
@@ -502,7 +576,6 @@ function initGui() {
   gui.add( params, 'thickness', 0, 5 );
   gui.add( params, 'fov', 0, 180 );
   gui.add( params, 'useShader' );
-  gui.add( params, 'modelType', [ 'gltf', 'glb', 'fbx', 'obj' ] ).onChange ( loadDropModel );
 
   const obj = { Download:takePicture };
   gui.add(obj,'Download');

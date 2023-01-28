@@ -1,7 +1,6 @@
 // For GLTF Loader, convert gltf to glb
 // reference: https://github.com/sbtron/makeglb/blob/master/index.html
-export default async function createGltfURL(event) {
-// async function createGltfURL(event) {
+export default async function createGltfURL(items) {
   let files = [];
   let fileblobs = [];
   let gltf;
@@ -14,9 +13,9 @@ export default async function createGltfURL(event) {
 
   let fileURL;  // glb に変換したファイルの URL
 
-  event.stopPropagation();
-  event.preventDefault();
-  const items = event.dataTransfer.items;
+  // event.stopPropagation();
+  // event.preventDefault();
+  // const items = event.dataTransfer.items;
   remainingfilestoprocess=items.length;
   // reference: https://qiita.com/megurock/items/59378a3dca535310d3fb
   for (let i=0; i<items.length; i++) {
